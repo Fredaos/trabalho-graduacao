@@ -24,6 +24,6 @@ m = np.matrix(m2)
 
 pseudoinv = np.linalg.pinv(m) #calcula a matriz pseudo-inversa de m
 
-np.savetxt("texto.txt", pseudoinv, fmt='%.3f', delimiter='') #funcao que salva os dados de um array em um arquivo .txt
+np.savetxt("texto.txt", pseudoinv, fmt='%.3f', delimiter=' ') #funcao que salva os dados de um array em um arquivo .txt
 
 
