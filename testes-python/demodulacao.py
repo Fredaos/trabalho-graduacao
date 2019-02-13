@@ -9,9 +9,7 @@
 # IMPORTACAO DE BIBLIOTECAS
 ############################
 import numpy as np
-import numpy.fft as fft
 import math
-import cmath
 import Adafruit_BBIO.GPIO as GPIO
 import beaglebone_pru_adc as adc
 import time
@@ -73,18 +71,44 @@ while True:
     # REALIZACAO DO CONTROLE PID
     ############################
 
+    corrente = amplitude/rs
+    erro_corrente = correnteSet - corrente
+    erro_tensao = erro_corrente*rs
+    erro_resistencia = erro_tensao*r1/vin
+    delta_time = time.time() - tempoAtual
+    
+    #controle proporcional
+    p = erro_resistencia*kp
+    
+    #controle integral
+    i = i + erro_resistencia*ki*delta_time
+    
+    #controle derivativo
+    d = (erroResistencia - erro_resistencia)*-1*kd*delta_time
+    erroResistencia = erro_resistencia
+    
+    #PID
+    pid = p+i+d
+    
+    iteracoes = int(pid/passoDigipot)
+    
+    if iteracoes < 0:
+        iteracoes = iteracoes*-1
+        
+    instante = instante + delta_time
+    
+    text_file.write("%.8f" %corrente + " " + "%.5f " %instante + "\n")
+    
+    if pid > 0:
+        for x in xrange(iteracoes):
+            GPIO.output("P8_10", GPIO.LOW)
+            GPIO.output("P8_12", GPIO.HIGH)
+            GPIO.output("P8_12", GPIO.LOW)
+            
+    if pid < 0:
+        for x in xrange(iteracoes):
+            GPIO.output("P8_10", GPIO.HIGH)
+            GPIO.output("P8_12", GPIO.HIGH)
+            GPIO.output("P8_12", GPIO.LOW)
 
-dados = range(0,10) #dados que viriam da aquisicao de dados analogicos
-dados = np.asarray(dados) #transformando a lista em matriz
-dados = dados[:, np.newaxis] #criando uma dimensao para as colunas do array
-n_amostras = 5 #numero de amostras
-
-m_pi = np.loadtxt('texto.txt') #carrega o arquivo txt c matriz pseudo-inversa 
-
-sinal_demodulado = m_pi.dot(dados[range(0,n_amostras)]) #multiplica matriz pseudo-inversa pelos dados
-
-print"forma da matriz do sinal demodulado", sinal_demodulado.shape
-
-#extracao dos componentes do sinal demodulado
-amplitude = math.sqrt(pow(sinal_demodulado[0,0],2)+pow(sinal_demodulado[1,0],2))
-print"amplitude ", amplitude
+text_file.close()
