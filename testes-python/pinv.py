@@ -6,7 +6,6 @@
 #codigo adaptado do trabalho de graduacao realizado pelo discente Samuel Alkmin
 
 import numpy as np
-import math
 
 # declaracao de variaveis
 fs = 110000 #freq de amostragem 110 ksps (obedece ao teorema de Nyquist fs >= 2*f) 
@@ -14,8 +13,8 @@ pts = 100 # pontos a serem analisados
 f = 10000 #freq sinal 10 kHz
 passo = float(1)/fs
 tempo = np.arange(0, 1, passo) #vetor igualmente espacado [inicio, fim, passo]
-i = np.cos(2*math.pi*f*tempo[range(0, pts)]) # o sinal in-phase, i, eh um cosseno, a funcao range pega o num pontos de t e atribui para a variavel a
-q = np.sin(2*math.pi*f*tempo[range(0, pts)]) # o sinal quadrature, q, eh um seno
+i = np.cos(2*np.pi*f*tempo[range(0, pts)]) # o sinal in-phase, i, eh um cosseno, a funcao range pega o num pontos de t e atribui para a variavel a
+q = np.sin(2*np.pi*f*tempo[range(0, pts)]) # o sinal quadrature, q, eh um seno
 
 # obtencao das matrizes para os sinais senoidais
 i_matrix = np.matrix(i)
