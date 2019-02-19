@@ -9,7 +9,6 @@
 # IMPORTACAO DE BIBLIOTECAS
 ############################
 import numpy as np
-import math
 import Adafruit_BBIO.GPIO as GPIO
 import beaglebone_pru_adc as adc
 import time
@@ -63,8 +62,8 @@ while True:
     produtoMatriz = pseudoinv.dot(dados[range(0,pts)]) #multiplica matriz pseudo-inversa pelos dados obtidos. Esta eh uma matriz de 3 linhas e 1 coluna
 
     #demodulacao
-    amplitude = math.sqrt(pow(produtoMatriz[0,0],2)+pow(produtoMatriz[1,0],2))     
-    fase = math.atan(produtoMatriz[1,0]/produtoMatriz[0,0])
+    amplitude = np.sqrt(pow(produtoMatriz[0,0],2)+pow(produtoMatriz[1,0],2))     
+    fase = np.arctan(produtoMatriz[1,0]/produtoMatriz[0,0])
     offset = produtoMatriz[2,0]
     
     ############################
