@@ -13,7 +13,6 @@ import Adafruit_BBIO.GPIO as GPIO
 import beaglebone_pru_adc as adc
 import time
 
-
 # abrir arquivo para realizar controle PID
 text_file = open("Aquisicao_Demodulacao_Controle.txt","w")
 
@@ -47,11 +46,37 @@ GPIO.setup("P8_12", GPIO.OUT)
 ############################################################################################################
 while True:
     tempoAtual = time.time()
-    
+    dados = []
     ############################
     # PROCESSO DE AMOSTRAGEM
     ############################
+    # baseado no codigo do github encontrado em: https://github.com/pgmmpk/beaglebone_pru_adc
+    numsamples = 100 # how many samples to capture
     
+    capture = adc.Capture()
+    capture.encoder0_pin = 0 # posiciona para valor [0-7] e habilita encoder 0
+    capture.encoder0_dalay = 100 # atraso para filtrar ruido
+    capture.enconder0_threshold = 5000 # nivel para Schmitt do encoder
+    capture.oscilloscope_init(adc.OFF_ENC0_VALUES, numsamples) # captures AIN0 - the first elt in AIN array
+    capture.cap_dalay = 100 # atraso introduzido para baixar a velocidade de captura
+    
+    capture.start()
+    
+    for _ in range(120000):
+    	if capture.oscilloscope_is_complete():
+    		break
+    	   
+    capture.stop() # sinalização no driver para sair do loot de captura e parar
+    capture.wait() # bloqueia chamada ate o driver parar
+    
+    # Salva valores do osciloscopio para um arquivo.txt
+    for x in capture.oscilloscope_data(numsamples): # recupera num samples de dados do driver de memoria DDR
+    	tensao = ('0.6f' %((x*1.8)/4096))
+        tensao = float(tensao) 
+        dados.append(tensao) # adiciona valores de tensao em dados
+        dados = np.asarray(dados) #converte data para array
+        
+    capture.close() # libera todos os recursos do driver
     
     ############################
     # PROCESSO DE DEMODULACAO
@@ -73,7 +98,7 @@ while True:
     corrente = amplitude/rs
     erro_corrente = correnteSet - corrente
     erro_tensao = erro_corrente*rs
-    erro_resistencia = erro_tensao*r1/vin
+    erro_resistencia = erro_tensao*r1/vi
     delta_time = time.time() - tempoAtual
     
     #controle proporcional
