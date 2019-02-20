@@ -38,8 +38,15 @@ i = 0
 d = 0
 
 # preparo das portas da BBB para utilizacao
-GPIO.setup("P8_10", GPIO.OUT)
-GPIO.setup("P8_12", GPIO.OUT)
+GPIO.setup("P9_31", GPIO.OUT)
+GPIO.setup("P9_20", GPIO.OUT)
+GPIO.setup("P9_30", GPIO.OUT)
+GPIO.setup("P9_29", GPIO.IN)
+GPIO.setup("P9_22", GPIO.OUT)
+GPIO.setup("P9_18", GPIO.OUT)
+GPIO.setup("P9_21", GPIO.IN)
+GPIO.setup("P9_17", GPIO.OUT)
+
 
 ############################################################################################################
 # INICIO DA ROTINA DE AMOSTRAGEM, DEMODULACAO E CONTROLE PID (tudo ocorre dentro de um laco de repeticao)
@@ -62,7 +69,7 @@ while True:
     
     capture.start()
     
-    for _ in range(120000):
+    for _ in range(100000):
     	if capture.oscilloscope_is_complete():
     		break
     	   
@@ -71,9 +78,10 @@ while True:
     
     # Salva valores do osciloscopio para um arquivo.txt
     for x in capture.oscilloscope_data(numsamples): # recupera num samples de dados do driver de memoria DDR
-    	tensao = ('0.6f' %((x*1.8)/4096))
+    	tensao = ('%0.6f' %((x*1.8)/4096))
         tensao = float(tensao) 
-        dados.append(tensao) # adiciona valores de tensao em dados
+        #dados.append(tensao) # adiciona valores de tensao em dados
+        dados[x] = tensao
         dados = np.asarray(dados) #converte data para array
         
     capture.close() # libera todos os recursos do driver
@@ -125,14 +133,32 @@ while True:
     
     if pid > 0:
         for x in xrange(iteracoes):
-            GPIO.output("P8_10", GPIO.LOW)
-            GPIO.output("P8_12", GPIO.HIGH)
-            GPIO.output("P8_12", GPIO.LOW)
+            GPIO.output("P9_20", GPIO.LOW)             
+            GPIO.output("P9_22", GPIO.LOW)
+            GPIO.output("P9_18", GPIO.LOW)
+            GPIO.output("P9_21", GPIO.LOW)
+            GPIO.output("P9_17", GPIO.LOW)
+            
+            GPIO.output("P9_31", GPIO.HIGH)
+            GPIO.output("P9_31", GPIO.LOW)
+            GPIO.output("P9_30", GPIO.HIGH)
+            GPIO.output("P9_30", GPIO.LOW)
+            GPIO.output("P9_29", GPIO.HIGH)
+            GPIO.output("P9_29", GPIO.LOW)
             
     if pid < 0:
         for x in xrange(iteracoes):
-            GPIO.output("P8_10", GPIO.HIGH)
-            GPIO.output("P8_12", GPIO.HIGH)
-            GPIO.output("P8_12", GPIO.LOW)
+            GPIO.output("P9_20", GPIO.HIGH)             
+            GPIO.output("P9_22", GPIO.HIGH)
+            GPIO.output("P9_18", GPIO.HIGH)
+            GPIO.output("P9_21", GPIO.HIGH)
+            GPIO.output("P9_17", GPIO.HIGH)
+                        
+            GPIO.output("P9_31", GPIO.HIGH)
+            GPIO.output("P9_31", GPIO.LOW)
+            GPIO.output("P9_30", GPIO.HIGH)
+            GPIO.output("P9_30", GPIO.LOW)
+            GPIO.output("P9_29", GPIO.HIGH)
+            GPIO.output("P9_29", GPIO.LOW)
 
 text_file.close()
