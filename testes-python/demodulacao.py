@@ -80,10 +80,9 @@ while True:
     for x in capture.oscilloscope_data(numsamples): # recupera num samples de dados do driver de memoria DDR
     	tensao = ('%0.6f' %((x*1.8)/4096))
         tensao = float(tensao) 
-        #dados.append(tensao) # adiciona valores de tensao em dados
-        dados[x] = tensao
-        dados = np.asarray(dados) #converte data para array
+        dados.append(tensao) # adiciona valores de tensao em dados
         
+    dados = np.asarray(dados) #converte data para array
     capture.close() # libera todos os recursos do driver
     
     ############################
@@ -136,29 +135,23 @@ while True:
             GPIO.output("P9_20", GPIO.LOW)             
             GPIO.output("P9_22", GPIO.LOW)
             GPIO.output("P9_18", GPIO.LOW)
-            GPIO.output("P9_21", GPIO.LOW)
             GPIO.output("P9_17", GPIO.LOW)
             
             GPIO.output("P9_31", GPIO.HIGH)
             GPIO.output("P9_31", GPIO.LOW)
             GPIO.output("P9_30", GPIO.HIGH)
             GPIO.output("P9_30", GPIO.LOW)
-            GPIO.output("P9_29", GPIO.HIGH)
-            GPIO.output("P9_29", GPIO.LOW)
-            
+                        
     if pid < 0:
         for x in xrange(iteracoes):
             GPIO.output("P9_20", GPIO.HIGH)             
             GPIO.output("P9_22", GPIO.HIGH)
             GPIO.output("P9_18", GPIO.HIGH)
-            GPIO.output("P9_21", GPIO.HIGH)
             GPIO.output("P9_17", GPIO.HIGH)
                         
             GPIO.output("P9_31", GPIO.HIGH)
             GPIO.output("P9_31", GPIO.LOW)
             GPIO.output("P9_30", GPIO.HIGH)
             GPIO.output("P9_30", GPIO.LOW)
-            GPIO.output("P9_29", GPIO.HIGH)
-            GPIO.output("P9_29", GPIO.LOW)
-
+            
 text_file.close()
