@@ -13,6 +13,7 @@ import Adafruit_BBIO.GPIO as GPIO
 import Adafruit_BBIO.ADC as ADC
 import beaglebone_pru_adc as adc
 import time
+from Adafruit_BBIO.SPI import SPI
 
 # abrir arquivo para realizar controle PID
 text_file = open("Aquisicao_Demodulacao_Controle.txt","w")
@@ -41,16 +42,26 @@ i = 0
 d = 0
 
 # preparo das portas da BBB para utilizacao
-GPIO.setup("P9_31", GPIO.OUT)
-GPIO.setup("P9_20", GPIO.OUT)
+#spi = SPI(bus, device)
+spi0 = SPI(0,0)
+spi1 = SPI(1,1)
+
+
+#GPIO.setup("P9_31", GPIO.OUT)
+#GPIO.setup("P9_28", GPIO.OUT)
 GPIO.setup("P9_30", GPIO.OUT)
 GPIO.setup("P9_29", GPIO.IN)
-GPIO.setup("P9_22", GPIO.OUT)
+#GPIO.setup("P9_22", GPIO.OUT)
 GPIO.setup("P9_18", GPIO.OUT)
 GPIO.setup("P9_21", GPIO.IN)
-GPIO.setup("P9_17", GPIO.OUT)
+#GPIO.setup("P9_17", GPIO.OUT)
 
 ADC.setup()
+
+def escreve(input):
+    msb = input >> 8
+    lsb = input & 0xFF
+    spi.xfer([msb, lsb])
 
 ############################################################################################################
 # INICIO DA ROTINA DE AMOSTRAGEM, DEMODULACAO E CONTROLE PID (tudo ocorre dentro de um laco de repeticao)
@@ -135,34 +146,22 @@ while cont2 < 2:
             
         instante = instante + delta_time
         
-        text_file.write("%.8f" %degrau + " " + "%.5f " %instante + "\n")
+        text_file.write("%.8f" %corrente + " " + "%.5f " %instante + "\n")
         
         if pid > 0:
             for x in xrange(iteracoes):
-                GPIO.output("P9_20", GPIO.LOW)             
-                GPIO.output("P9_22", GPIO.LOW)
-                GPIO.output("P9_18", GPIO.LOW)
-                GPIO.output("P9_17", GPIO.LOW)
+              
                 
-                GPIO.output("P9_31", GPIO.HIGH)
-                GPIO.output("P9_31", GPIO.LOW)
-                GPIO.output("P9_30", GPIO.HIGH)
-                GPIO.output("P9_30", GPIO.LOW)
-                            
+                
         if pid < 0:
             for x in xrange(iteracoes):
-                GPIO.output("P9_20", GPIO.HIGH)             
-                GPIO.output("P9_22", GPIO.HIGH)
-                GPIO.output("P9_18", GPIO.HIGH)
-                GPIO.output("P9_17", GPIO.HIGH)
-                            
-                GPIO.output("P9_31", GPIO.HIGH)
-                GPIO.output("P9_31", GPIO.LOW)
-                GPIO.output("P9_30", GPIO.HIGH)
-                GPIO.output("P9_30", GPIO.LOW)
+           
+                
+                
         cont1 = cont1 + 1
-    correnteSet = float(input("digite 0.004 (este valor eh 4 mA)"))
-    cont1 = 0
+    if cont2 < 1:
+        correnteSet = float(input("digite 0.004 (este valor eh 4 mA)"))
+        cont1 = 0
     cont2 = cont2 + 1
     
 text_file.close()
