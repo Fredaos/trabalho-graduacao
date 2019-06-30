@@ -1,0 +1,31 @@
+1o teste com adc normal
+
+
+tabela:
+-------------------------------------
+#samples | fs (samples per second)
+-	 | 3051 -> houve muito ruido
+
+2o teste com pru
+
+tabela:
+-------------------------------------
+#samples | fs (samples per second)
+- |  -> 26478 houve muito ruido
+
+3o teste com pru em modo osciloscopio
+
+Utilizou-se o comando "modprobe uio_pruss extram_pool_sz=0x7a1200" para expandir a memoria do modulo PRU
+Realizou-se a aquisicao de dados com o maior numero possivel de amostras para verificar qual eh a velocidade maxima de amostragem
+Este eh o unico teste em que eh possivel controlar o numero de amostras
+
+tabela:
+-------------------------------------
+#samples | fs (samples per second)
+2M	 | 400000 -> observou-se que a captura falha apos 1,5s
+700k	 | 140000 -> observou-se que a captura falha apos 4,5s
+650k	 | 130000 -> observou-se que a captura falha apos 4,7s
+600k	 | 120000 -> nao houve falhas, logo a fs da BB eh de aproximadamente 120ksps
+550k	 | 110000 -> nao houve falhas
+
+
