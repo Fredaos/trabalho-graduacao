@@ -1,0 +1,32 @@
+Gaiola de Faraday
+
+1o teste: adc normal
+fs = 809
+ficou mais lento e observou-se que houve dispersao nos dados (comparar com o adc normal)
+
+tabela:
+media | std |
+0.9812493827160492| 0.0005896480341235016|
+
+2o teste: adc com pru
+fs = 25902
+observou-se que houve dispersao nos dados (comparar com o adc normal)
+
+tabela:
+media | std |
+0.9822279658726789| 0.0019096980767815766|
+
+3o teste: pru em modo osciloscopio
+
+Utilizou-se o comando "modprobe uio_pruss extram_pool_sz=0x7a1200" para expandir a memoria do modulo PRU
+Realizou-se a aquisicao de dados com o maior numero possivel de amostras para verificar qual eh a velocidade maxima de amostragem
+Este eh o unico teste em que eh possivel controlar o numero de amostras
+
+tabela:
+-------------------------------------
+#samples | media | std | fs (samples per second)
+2M	 | 0.9822075874999996| 0.0022100112963158707|400000 -> observou-se que a captura falha apos 1,5s
+700k	 |0.9822274357142858 | 0.0030006513809759817|140000 -> observou-se que a captura falha apos 4,5s e houve ruido em 2,8s
+650k	 |0.9822071846153845 | 0.003134217715634012 |130000 -> observou-se que a captura falha apos 4,7s
+600k	 |0.9822122727272726 | 0.0033263813696762026 |120000 -> nao houve falhas, logo a fs da BB eh de aproximadamente 120ksps
+550k	 |0.9822305636363636 | 0.003316921416360969|110000 -> nao houve falhas

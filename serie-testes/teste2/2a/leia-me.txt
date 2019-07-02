@@ -3,15 +3,15 @@
 
 tabela:
 -------------------------------------
-#samples | fs (samples per second)
--	 | 3051 -> houve muito ruido
+#samples | media | std |fs (samples per second)
+-	 | 0.9781211082547842| 0.0004823802321474128|3051 -> houve muito ruido
 
 2o teste com pru
 
 tabela:
 -------------------------------------
-#samples | fs (samples per second)
-- |  -> 26478 houve muito ruido
+#samples |media | std | fs (samples per second)
+- |  0.9788263907247251|0.0013162453849010214 |-> 26478 houve muito ruido
 
 3o teste com pru em modo osciloscopio
 
@@ -21,11 +21,11 @@ Este eh o unico teste em que eh possivel controlar o numero de amostras
 
 tabela:
 -------------------------------------
-#samples | fs (samples per second)
-2M	 | 400000 -> observou-se que a captura falha apos 1,5s
-700k	 | 140000 -> observou-se que a captura falha apos 4,5s
-650k	 | 130000 -> observou-se que a captura falha apos 4,7s
-600k	 | 120000 -> nao houve falhas, logo a fs da BB eh de aproximadamente 120ksps
-550k	 | 110000 -> nao houve falhas
+#samples | media | std |fs (samples per second)
+2M	 | 0.9787557224999999| 0.001984613565154121|400000 -> observou-se que a captura falha apos 1,5s
+700k	 | 0.9786678928571428| 0.0029568971169029504|140000 -> observou-se que a captura falha apos 4,5s
+650k	 | 0.9786898384615386| 0.0029897272535849163|130000 -> observou-se que a captura falha apos 4,7s
+600k	 | 0.9787727499999999| 0.003096937859267872|120000 -> nao houve falhas, logo a fs da BB eh de aproximadamente 120ksps
+550k	 | 0.9788344090909091| 0.00321223054984724|110000 -> nao houve falhas
 
 

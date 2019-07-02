@@ -3,18 +3,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-#dados = np.loadtxt("aquisicao1.txt")
-#fs = len(dados[:,1])/10
-#
-##grafico 1 adc
-#plt.figure()
-#plt.scatter(dados[:,0],dados[:,1],c="red", marker = ".")
-#plt.title("tensão x tempo [813 ksps]")
-#plt.xlabel("tempo [s]")
-#plt.ylabel("tensão [V]")
-#plt.show()
-#plt.savefig('aq1.png')
-
 dados = np.loadtxt("aq_adc.txt")
 
 fs = int(len(dados[:])/5)
