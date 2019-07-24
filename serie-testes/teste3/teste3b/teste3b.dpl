@@ -1,11 +1,11 @@
 <Qucs Schematic 0.0.18>
 <Properties>
-  <View=0,0,917,800,1,0,0>
+  <View=0,0,800,800,1,0,0>
   <Grid=10,10,0>
-  <DataSet=teste3a.dat>
-  <DataDisplay=teste3a.sch>
+  <DataSet=teste3b.dat>
+  <DataDisplay=teste3b.sch>
   <OpenDisplay=1>
-  <Script=teste3a.m>
+  <Script=teste3b.m>
   <RunScript=0>
   <showFrame=0>
   <FrameText0=Title>
@@ -20,10 +20,9 @@
 <Wires>
 </Wires>
 <Diagrams>
-  <Rect 116 463 754 394 3 #c0c0c0 1 00 1 0 0.0001 0.001 1 -1.22055 0.5 1.5 1 -1 0.2 1 315 0 225 "" "" "">
-	<"Pr_Vout.Vt" #ff0000 0 3 0 0 0>
-	<"Pr_C1.Vt" #0000ff 0 3 0 1 0>
-	<"Pr_Vin.Vt" #000000 0 3 0 0 0>
+  <Rect 143 440 467 300 3 #c0c0c0 1 00 1 0 0.2 1 1 -0.1 0.5 1.1 1 -0.1 0.5 1.1 315 0 225 "" "" "">
+	<"Vin.Vt" #0000ff 0 3 0 0 0>
+	<"Vout.Vt" #ff00ff 0 3 0 0 0>
   </Rect>
 </Diagrams>
 <Paintings>
