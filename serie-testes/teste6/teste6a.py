@@ -1,35 +1,51 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
-import Adafruit_BBIO.SPI as SPI
-from Adafruit_BBIO.SPI import SPI
+import Adafruit_BBIO.GPIO as GPIO
+import time
+import beaglebone_pru_adc as adc
 
+# configuracao dos pinos
+GPIO.setup("P8_10", GPIO.OUT) # clock
+GPIO.setup("P8_12", GPIO.OUT) # up/down
 
-spi = SPI(0,0)
-spi.open(0,0)
+# arquivo de texto
+file = open("teste6c.txt","w+")
 
-while True:
-  # go through the six channels of the digital pot:
-  for channel in range (0,6):
-    # change the resistance on this channel from min to max:
-    for level in range(0,255):
-      digitalPotWrite(channel, level)
-      delay(10)
-    
-    # wait a second at the top:
-    delay(100)
-    # change the resistance on this channel from max to min:
-    for level in range(0,255):
-      digitalPotWrite(channel, 255 - level)
-      delay(10)
+numsamples = 200 # numero de amostras
 
-def digitalPotWrite(address, value):
-  # take the SS pin low to select the chip:
-  cshigh = False
-  delay(100)
-  # send in the address and value via SPI:
-  spi.xfer2([address])
-  spi.xfer2([value])
-  delay(100)
-  # take the SS pin high to de-select the chip:
-  cshigh = True
+capture = adc.Capture()
+capture.encoder0_pin = 0
+capture.oscilloscope_init(adc.OFF_ENC0_VALUES,numsamples)
+capture.encoder0_threshold = 4096
 
+tempo = 0
+
+print("inicio da captura")
+capture.start()
+t0 = time.time()
+
+while tempo <= 4:
+	tempo = time.time() - t0
+
+	if tempo <= 2:
+		print("descer")
+		GPIO.output("P8_12",0)
+		GPIO.output("P8_10",1)
+		GPIO.output("P8_10",0)
+		tensao = float(capture.encoder0_values[0])*1.8/4096
+		file.write("%.3f \n" %(tensao))
+	else:
+		print("subir")
+		GPIO.output("P8_12",GPIO.HIGH)
+		GPIO.output("P8_10",GPIO.HIGH)
+		GPIO.output("P8_10",GPIO.LOW)
+		tensao = float(capture.encoder0_values[0])*1.8/4096
+		file.write("%.3f \n" %(tensao))
+
+capture.stop()
+capture.wait()
+capture.close()
+
+print("fim da captura")
+file.close()
+print("fim")
