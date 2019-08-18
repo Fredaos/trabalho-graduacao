@@ -1,0 +1,7 @@
+teste 8
+
+fora da gaiola de faraday
+média = 1.05044
+std = 0.17262417675401093
+
+dentro da gaiola de faraday

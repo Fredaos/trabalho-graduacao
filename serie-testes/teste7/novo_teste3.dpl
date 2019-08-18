@@ -1,0 +1,29 @@
+<Qucs Schematic 0.0.18>
+<Properties>
+  <View=0,0,851,800,1,0,0>
+  <Grid=10,10,0>
+  <DataSet=novo_teste3.dat>
+  <DataDisplay=novo_teste3.sch>
+  <OpenDisplay=1>
+  <Script=novo_teste3.m>
+  <RunScript=0>
+  <showFrame=0>
+  <FrameText0=Título>
+  <FrameText1=Desenhado por:>
+  <FrameText2=Data:>
+  <FrameText3=Revisão:>
+</Properties>
+<Symbol>
+</Symbol>
+<Components>
+</Components>
+<Wires>
+</Wires>
+<Diagrams>
+  <Rect 210 500 594 410 3 #c0c0c0 1 00 1 0 0.005 0.05 0 -0.4 0.1 1.4 1 -1 0.2 1 315 0 225 "" "" "">
+	<"Vin.Vt" #0000ff 0 3 0 0 0>
+	<"Vout.Vt" #ff0000 0 3 0 0 0>
+  </Rect>
+</Diagrams>
+<Paintings>
+</Paintings>
