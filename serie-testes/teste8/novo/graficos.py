@@ -7,7 +7,7 @@ dados = np.loadtxt("teste8.txt")
 
 #fs = int(len(dados[:])/5)
 
-tempo = np.linspace(0,10,len(dados[:]))
+tempo = np.linspace(0,5,len(dados[:]))
 
 #grafico 2 adc
 plt.figure()
